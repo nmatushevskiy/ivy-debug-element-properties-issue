@@ -1,31 +1,31 @@
-import { TestBed, async } from '@angular/core/testing';
+import {TestBed, async} from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { By } from '@angular/platform-browser';
+import {AppModule} from './app.module';
 
 describe('AppComponent', () => {
+  let fixture;
+  let debugElement;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      imports: [AppModule],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    debugElement = fixture.debugElement;
+    fixture.detectChanges();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+  afterEach(function() {
+    fixture = null;
+    debugElement = null;
   });
 
-  it(`should have as title 'ivy-debug-element-properties-issue'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('ivy-debug-element-properties-issue');
-  });
+  it('issue example', () => {
+    expect(debugElement.query(By.css('input[type="radio"]')).properties.checked).toBeDefined();
+    expect(debugElement.query(By.css('input[type="radio"]')).properties.checked).toBe(true);
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to ivy-debug-element-properties-issue!');
+    expect(debugElement.query(By.css('input[type="radio"]')).nativeElement.checked).toBe(true); // works correct
   });
 });
